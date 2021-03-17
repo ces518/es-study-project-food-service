@@ -6,23 +6,19 @@ import lombok.NoArgsConstructor;
 import me.june.food.base.BaseEntity;
 import me.june.food.base.Money;
 
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.Entity;
 
 @Getter
 @Entity
-@Table(name = "advertised_stores")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class AdvertisedStore extends BaseEntity {
+public class AdvertiseBidStore extends BaseEntity {
 
 	// 스토어
 	@Column(nullable = false)
 	private Long storeId;
 
-	// 최종 입찰 가격
+	// 입찰 금액
 	@Column(nullable = false)
-	private Money winningBidPrice;
-
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn("advertisements_id")
-	private Advertisement advertisement;
+	private Money bidPrice;
 }

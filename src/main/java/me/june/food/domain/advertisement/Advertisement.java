@@ -1,27 +1,20 @@
 package me.june.food.domain.advertisement;
 
+import lombok.AccessLevel;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import me.june.food.base.BaseEntity;
 import me.june.food.base.Money;
+import me.june.food.base.TimePeriod;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Table;
-import java.time.LocalDateTime;
+import javax.persistence.*;
+import java.util.List;
 
 @Getter
 @Entity
 @Table(name = "advertisements")
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Advertisement extends BaseEntity {
-	// 오픈리스트 / 울트라콜 두가지로 나뉜다.
-	// 광고는 입찰로 이루어진다.
-	// 광고는 지원하는 지역이 있다. (동 또는 구 단위)
-	// 광고를 걸수 있는 스토어 수는 제한된다.
-	// 광고 입찰에 성공한 스토어는 검색시 상단에 노출된다.
-	// 광고는 관리자가 공고를 낼 수 있다.
-	// 광고 기간은 기본적으로 월 단위이다.
-	// 최소 입찰 금액이 존재한다.
-	// 입찰 단위가 존재한다.
 
 	// 광고 타입
 	enum Type {
@@ -48,11 +41,18 @@ public class Advertisement extends BaseEntity {
 	@Column(nullable = false)
 	private Money bidPriceUnit;
 
-	// 광고 시작일
-	@Column(nullable = false)
-	private LocalDateTime from;
+	// 광고 기간
+	@AttributeOverrides(
+		@AttributeOverride(name = "from", column = @Column(name = "ad_start_at", nullable = false)),
+		@AttributeOverride(name = "to", column = @Column(name = "ad_end_at", nullable = false))
+	)
+	private TimePeriod period = TimePeriod.EMPTY;
 
-	// 광고 종료일
-	@Column(nullable = false)
-	private LocalDateTime to;
+	// 광고 입찰 스토어
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "advertisement")
+	private List<AdvertiseBidStore> advertiseBidStores = List.of();
+
+	// 광고 대상 스토어
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "advertisement")
+	private List<AdvertisedStore> advertisedStores = List.of();
 }
