@@ -13,7 +13,6 @@ import javax.persistence.*;
 @Table(name = "advertised_stores")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class AdvertisedStore extends BaseEntity {
-
 	// 스토어
 	@Column(nullable = false)
 	private Long storeId;

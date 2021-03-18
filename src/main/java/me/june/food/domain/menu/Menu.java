@@ -8,7 +8,6 @@ import me.june.food.base.Money;
 import me.june.food.domain.category.Category;
 
 import javax.persistence.*;
-import java.math.BigDecimal;
 
 @Getter
 @Entity

@@ -7,7 +7,6 @@ import me.june.food.base.BaseEntity;
 import me.june.food.base.Money;
 
 import javax.persistence.*;
-import java.math.BigDecimal;
 
 @Getter
 @Entity
